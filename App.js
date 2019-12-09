@@ -14,41 +14,51 @@ import {
   View,
   Text,
   StatusBar,
-  FlatList,TouchableOpacity
+  FlatList,TouchableOpacity,Image
 } from 'react-native';
+
 
 const list=[{name:"Mango",flag:false},{name:"Pine",flag:true},{name:"Orange",flag:false},{name:"Grape",flag:false},{name:"Banana",flag:false}]
 const App= () => {
-  const [flagVal, setFlag] = useState(list);
+  const [listData, setList] = useState(list);
+  const [isChange,setChange] = useState(false);
 
   const renderItem=(item)=>{
     return item.flag==false? <TouchableOpacity onPress={()=>{
-      alert(item.flag)
-      setFlag(item.name=true)
+      console.log(item)
+      item.flag=true
+     console.log(item,listData) 
+     setList(listData)
+     setChange(!isChange)
       }}>
-    <View>
-      <Text style={{backgroundColor:"#ff00ff"}}>{item.name}</Text>
+    <View style={{backgroundColor:'#1f1e1d',flexDirection:'row'}}>
+      <Image source={require("./app/res/images/chkn.png")}></Image>
+      <Text style={{backgroundColor:"#ff00ff",flex:1}}>{item.name}</Text>
     </View>
     </TouchableOpacity>
-    :<TouchableOpacity onPress={()=>{alert(item.flag)
-      setFlag(item.name=true)
+    :<TouchableOpacity onPress={()=>{
+      item.flag = false
+      setList(listData)
+      setChange(!isChange)
     }
     }>
-    <View>
-      <Text style={{backgroundColor:"#00ff00"}}>{item.name}</Text>
+    <View style={{backgroundColor:'#1f1e1d',flexDirection:'row'}}>
+      <Image source={require("./app/res/images/chky.png")}></Image>
+      <Text style={{backgroundColor:"#00ff00",flex:1}}>{item.name}</Text>
     </View>
     </TouchableOpacity>
   }
 
   return (
+    console.log(listData),
    <View>
-     <Text>Test</Text>
+     <Text>FlatListMultiCheck</Text>
      <FlatList
-        data={list}
+        data={listData}
         renderItem={({item})=>
           renderItem(item)
         }
-        extraData={list}
+        extraData={isChange}
      >
 
      </FlatList>
